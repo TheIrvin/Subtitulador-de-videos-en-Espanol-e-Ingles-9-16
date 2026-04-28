@@ -1,0 +1,56 @@
+{
+  "name": "mini-editor-subtitulos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mini editor local de subtitulos automaticos",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "frontend:install": "npm --prefix frontend install",
+    "frontend:build": "npm --prefix frontend run build",
+    "desktop:dev": "electron .",
+    "backend:build": "powershell -ExecutionPolicy Bypass -File scripts/build_backend.ps1",
+    "dist:win": "npm run frontend:build && npm run backend:build && electron-builder --win nsis",
+    "pack:win": "npm run frontend:build && npm run backend:build && electron-builder --win dir",
+    "dist:win:ready": "electron-builder --win nsis",
+    "pack:win:ready": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.local.mini-editor-subtitulos",
+    "productName": "Mini Editor Subtitulos",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "desktop/**/*",
+      "frontend/dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "dist-backend",
+        "to": "backend",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "desktop/Icono/Icono.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        "nsis",
+        "dir"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
