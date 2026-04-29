@@ -1,79 +1,90 @@
 # Subtitulador de videos en Espanol e Ingles 9:16
 
-Editor de escritorio para crear videos verticales 9:16 con subtitulos en espanol e ingles. Esta pensado para contenido corto tipo TikTok, Reels y Shorts: cargas un video, generas o pegas subtitulos, ajustas los bloques visualmente y exportas un MP4 final con subtitulos quemados.
+Aplicacion de escritorio para crear videos verticales 9:16 con subtitulos en espanol e ingles. Esta pensada para contenido corto tipo TikTok, Reels y Shorts: cargas un video, generas o pegas subtitulos, ajustas los bloques visualmente y exportas un MP4 final con subtitulos quemados.
 
-La aplicacion funciona localmente en Windows y no agrega marca de agua.
+Funciona localmente en Windows y no agrega marca de agua.
 
-## Que permite hacer
+## Descargar e instalar
 
-- Subir videos verticales 9:16.
-- Generar subtitulos en espanol automaticamente desde el audio.
-- Generar subtitulos en ingles desde el texto espanol ya creado.
-- Pegar guiones manuales en espanol e ingles.
-- Alinear parrafos de espanol con sus parrafos equivalentes en ingles.
-- Editar cada bloque de subtitulo.
-- Ajustar texto, tamano y posicion vertical.
-- Ver preview en tiempo real.
-- Usar karaoke en palabras del subtitulo espanol.
-- Exportar video final MP4 con subtitulos quemados.
-- Exportar audio MP3 opcional.
-- Elegir portada desde el frame actual del video.
-- Guardar historial local de proyectos.
+La forma recomendada de usar la app es instalarla desde la version de escritorio.
 
-## App de escritorio
-
-El proyecto esta preparado como aplicacion de escritorio con Electron y backend Python empaquetado. El usuario final no necesita abrir servidores manualmente: al iniciar la app, Electron levanta el backend local en segundo plano.
-
-Archivos generados al compilar:
+1. Ve a la seccion **Releases** del repositorio.
+2. Descarga el instalador:
 
 ```text
-release/win-unpacked/Mini Editor Subtitulos.exe
-release/Mini Editor Subtitulos Setup 0.1.0.exe
+Mini Editor Subtitulos Setup 0.1.0.exe
 ```
 
-Puedes usar:
+3. Ejecuta el instalador.
+4. Abre la app desde el acceso directo creado en Windows.
 
-- `Mini Editor Subtitulos.exe`: version portable para probar la app sin instalar.
-- `Mini Editor Subtitulos Setup 0.1.0.exe`: instalador para Windows.
+No necesitas abrir servidores manualmente, ejecutar comandos, instalar FFmpeg por separado ni configurar Python para usar la app instalada.
+
+## Uso rapido
+
+1. Abre la aplicacion.
+2. Sube un video vertical.
+3. Genera subtitulos automaticamente o pega tu guion manual.
+4. Revisa y edita los bloques.
+5. Elige una carpeta para guardar el resultado.
+6. Exporta el video final.
+
+## Funciones principales
+
+- Subtitulos en espanol e ingles para videos 9:16.
+- Transcripcion automatica del espanol desde el audio.
+- Generacion de ingles desde los bloques en espanol.
+- Modo manual para pegar texto en espanol e ingles.
+- Alineacion por parrafos entre espanol e ingles.
+- Editor visual por bloques.
+- Preview en tiempo real.
+- Karaoke por palabra en el subtitulo espanol.
+- Ajuste de texto, tamano y posicion vertical.
+- Exportacion MP4 con subtitulos quemados.
+- Exportacion opcional de MP3.
+- Seleccion de portada desde el frame actual.
+- Historial local de proyectos.
 
 ## Flujo automatico
 
-1. Abre la app.
-2. Sube un video.
-3. Presiona `Generar espanol`.
-4. La app transcribe el audio y crea bloques en espanol.
-5. Revisa o corrige el espanol si hace falta.
-6. Presiona `Generar ingles`.
-7. La app genera el ingles desde los bloques actuales en espanol.
-8. Ajusta posicion, tamano o texto de cualquier bloque.
-9. Elige una carpeta de exportacion.
-10. Exporta el video final.
+El flujo automatico sirve cuando quieres que la app detecte el audio y cree los subtitulos iniciales.
 
-## Flujo manual por parrafos
+1. Sube el video.
+2. Presiona **Generar espanol**.
+3. La app transcribe el audio y crea bloques en espanol.
+4. Corrige el texto espanol si hace falta.
+5. Presiona **Generar ingles**.
+6. La app genera el ingles desde los bloques actuales en espanol.
+7. Ajusta los bloques visualmente.
+8. Exporta el video.
 
-Tambien puedes trabajar pegando el guion completo.
+La traduccion al ingles se hace desde el espanol ya guardado en los bloques. No vuelve a transcribir ni cambia los tiempos del video.
 
-Ejemplo:
+## Flujo manual con texto en espanol e ingles
 
-```text
-Parrafo 1 en espanol
+El modo manual sirve cuando ya tienes el guion correcto.
 
-Parrafo 2 en espanol
-
-Parrafo 3 en espanol
-```
-
-y su version en ingles:
+Puedes pegar el texto completo en espanol:
 
 ```text
-Paragraph 1 in English
+Primer parrafo del guion en espanol.
 
-Paragraph 2 in English
+Segundo parrafo del guion en espanol.
 
-Paragraph 3 in English
+Tercer parrafo del guion en espanol.
 ```
 
-La app separa ambos textos por parrafos. Luego compara:
+Y tambien pegar su version en ingles:
+
+```text
+First paragraph of the script in English.
+
+Second paragraph of the script in English.
+
+Third paragraph of the script in English.
+```
+
+La app separa ambos textos por parrafos y los empareja en orden:
 
 ```text
 parrafo 1 espanol -> parrafo 1 ingles
@@ -81,13 +92,13 @@ parrafo 2 espanol -> parrafo 2 ingles
 parrafo 3 espanol -> parrafo 3 ingles
 ```
 
-Con esa relacion, distribuye los subtitulos sobre los tiempos detectados de voz para que cada bloque en espanol y su bloque en ingles terminen aproximadamente al mismo tiempo.
+Luego usa los tiempos detectados de voz para distribuir los subtitulos, buscando que cada parrafo en espanol y su equivalente en ingles terminen aproximadamente al mismo tiempo.
 
-Este modo es util cuando ya tienes el texto correcto y solo quieres que la app lo sincronice con el video.
+Este flujo ayuda cuando la traduccion ya esta corregida y solo quieres sincronizarla con el video.
 
-## Edicion visual
+## Editor visual
 
-La interfaz se organiza como un editor simple:
+La interfaz esta organizada como un editor simple:
 
 ```text
 Panel izquierdo   Preview central   Panel derecho
@@ -97,73 +108,78 @@ Barra inferior de acciones
 Panel izquierdo:
 
 - Historial de proyectos.
-- Lista de bloques.
-- Indicador del bloque activo.
-- Boton para agregar un bloque vacio si necesitas corregir una parte.
+- Lista de bloques de subtitulos.
+- Indicador del bloque seleccionado.
+- Indicador del bloque activo durante la reproduccion.
+- Opcion para agregar un bloque vacio si necesitas corregir una parte.
 
 Preview central:
 
 - Video vertical 9:16.
-- Subtitulo ingles arriba.
-- Subtitulo espanol abajo.
-- Karaoke en el espanol.
-- Actualizacion en tiempo real.
+- Ingles arriba.
+- Espanol abajo.
+- Karaoke en palabras del espanol.
+- Vista previa actualizada en tiempo real.
 
 Panel derecho:
 
-- Edicion de texto espanol.
-- Edicion de texto ingles.
-- Controles de tamano.
-- Controles de posicion vertical.
-- Guardado de cambios.
+- Editar texto espanol.
+- Editar texto ingles.
+- Cambiar tamano del espanol o ingles.
+- Subir o bajar posicion vertical.
+- Guardar cambios.
 
 ## Exportacion
 
-Antes de exportar debes elegir una carpeta de destino. La app crea una carpeta con el nombre del video y guarda ahi los archivos generados.
+Antes de exportar, la app pide elegir una carpeta de destino. Dentro de esa carpeta crea una subcarpeta con el nombre del proyecto/video.
 
 Ejemplo:
 
 ```text
 Carpeta elegida/
-  silver chariot/
-    silver chariot.mp4
-    silver chariot_portada.jpg
-    silver chariot.mp3
+  video_promocional/
+    video_promocional.mp4
+    video_promocional_portada.jpg
+    video_promocional.mp3
 ```
 
-El MP4 final se exporta con subtitulos quemados usando FFmpeg local.
+El archivo principal exportado es el MP4 con subtitulos quemados. La portada y el MP3 se generan si activas esas opciones.
 
-## Tecnologias
+## Version portable
 
-Frontend:
+Ademas del instalador, el proyecto puede generar una version portable:
 
+```text
+Mini Editor Subtitulos.exe
+```
+
+Esta version sirve para probar la app sin instalarla.
+
+## Datos locales
+
+La aplicacion instalada guarda sus proyectos e historial local en:
+
+```text
+%APPDATA%\Mini Editor Subtitulos\data
+```
+
+Los videos finales se guardan en la carpeta que eliges al exportar.
+
+## Desarrollo
+
+Esta seccion es solo para quienes quieran modificar el codigo fuente o compilar una nueva version del instalador.
+
+Tecnologias principales:
+
+- Electron
 - React
 - Vite
-- CSS
-- HTML5 video
-
-Backend:
-
 - Python
 - FastAPI
 - faster-whisper
-- Argos Translate / fallback local
 - imageio-ffmpeg
-- SQLite
-
-Escritorio:
-
-- Electron
 - PyInstaller
 - electron-builder
-
-## Ejecutar en desarrollo
-
-Requisitos:
-
-- Python 3.11 o superior
-- Node.js 20 o superior
-- Git
 
 Instalar dependencias:
 
@@ -173,71 +189,35 @@ npm install
 npm run frontend:install
 ```
 
-Levantar backend:
+Ejecutar en modo desarrollo:
 
 ```powershell
 python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Levantar frontend:
+En otra terminal:
 
 ```powershell
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Abrir:
-
-```text
-http://127.0.0.1:5173
-```
-
-## Ejecutar como escritorio en desarrollo
-
-Con Vite abierto en el puerto `5173`, ejecuta desde la raiz:
+Ejecutar Electron en desarrollo:
 
 ```powershell
 npm run desktop:dev
 ```
 
-## Crear instalador de Windows
-
-Construir frontend:
+Compilar instalador de Windows:
 
 ```powershell
 npm run frontend:build
-```
-
-Empaquetar backend Python:
-
-```powershell
 npm run backend:build
-```
-
-Crear version portable:
-
-```powershell
-npm run pack:win:ready
-```
-
-Crear instalador:
-
-```powershell
 npm run dist:win:ready
 ```
 
-Los archivos quedan en:
+Los archivos generados quedan en:
 
 ```text
 release/
 ```
-
-## Datos de la app
-
-La version instalada guarda sus datos locales en:
-
-```text
-%APPDATA%\Mini Editor Subtitulos\data
-```
-
-Los videos finales se guardan en la carpeta que el usuario elige al exportar.
