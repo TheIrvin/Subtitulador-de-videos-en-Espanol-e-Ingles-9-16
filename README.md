@@ -1,123 +1,171 @@
 # Subtitulador de videos en Espanol e Ingles 9:16
 
-Aplicacion local de escritorio para crear videos verticales 9:16 con subtitulos en espanol e ingles. Esta pensada para clips cortos tipo TikTok/Reels/Shorts: subes un video, generas o pegas subtitulos, editas bloques, ves el preview y exportas el MP4 final con subtitulos quemados.
+Editor de escritorio para crear videos verticales 9:16 con subtitulos en espanol e ingles. Esta pensado para contenido corto tipo TikTok, Reels y Shorts: cargas un video, generas o pegas subtitulos, ajustas los bloques visualmente y exportas un MP4 final con subtitulos quemados.
 
-No usa APIs externas, servicios cloud ni marcas de agua. Todo corre localmente.
+La aplicacion funciona localmente en Windows y no agrega marca de agua.
 
-## Funciones principales
+## Que permite hacer
 
-- Editor visual de subtitulos para video vertical 9:16.
-- Preview con HTML5 video y subtitulos HTML encima del video.
-- Generacion automatica de subtitulos en espanol con `faster-whisper`.
-- Generacion automatica de ingles desde los bloques espanoles ya creados.
-- Modo manual: puedes pegar el texto completo en espanol y tambien el texto completo en ingles.
-- Comparacion por parrafos/cadenas: si pegas varios parrafos en espanol y los mismos parrafos en ingles, el sistema intenta alinear cada parrafo espanol con su parrafo ingles correspondiente para que terminen en tiempos similares.
-- Bloques editables: texto, tamano, posicion vertical, karaoke en espanol y ajustes por bloque.
-- Exportacion con FFmpeg local a MP4 con subtitulos quemados.
-- Exportacion opcional de MP3.
-- Seleccion de portada usando el frame actual del video.
-- Historial local de proyectos con SQLite.
-- App de escritorio con Electron y backend Python empaquetado.
+- Subir videos verticales 9:16.
+- Generar subtitulos en espanol automaticamente desde el audio.
+- Generar subtitulos en ingles desde el texto espanol ya creado.
+- Pegar guiones manuales en espanol e ingles.
+- Alinear parrafos de espanol con sus parrafos equivalentes en ingles.
+- Editar cada bloque de subtitulo.
+- Ajustar texto, tamano y posicion vertical.
+- Ver preview en tiempo real.
+- Usar karaoke en palabras del subtitulo espanol.
+- Exportar video final MP4 con subtitulos quemados.
+- Exportar audio MP3 opcional.
+- Elegir portada desde el frame actual del video.
+- Guardar historial local de proyectos.
 
-## Flujo de uso
+## App de escritorio
 
-1. Sube un video vertical.
-2. Opcion automatica:
-   - Presiona `Generar espanol`.
-   - El backend transcribe el audio con `faster-whisper`.
-   - Luego puedes presionar `Generar ingles`.
-   - El ingles se genera desde los bloques actuales en `text_es`.
-3. Opcion manual:
-   - Pega el texto completo en espanol.
-   - Opcionalmente pega tambien el texto completo en ingles.
-   - El sistema separa los textos por parrafos/cadenas.
-   - Compara la cadena 1 en espanol con la cadena 1 en ingles, la cadena 2 con la cadena 2, y asi sucesivamente.
-   - Usa los tiempos detectados de voz para distribuir esos bloques y mantenerlos sincronizados.
-4. Revisa y edita los bloques.
-5. Elige una carpeta de exportacion.
-6. Exporta el video.
+El proyecto esta preparado como aplicacion de escritorio con Electron y backend Python empaquetado. El usuario final no necesita abrir servidores manualmente: al iniciar la app, Electron levanta el backend local en segundo plano.
 
-## Arquitectura
+Archivos generados al compilar:
 
 ```text
-backend/
-  main.py
-  desktop_server.py
-  services/
-    transcriber.py
-    translator.py
-    subtitle_builder.py
-    renderer.py
-    history.py
-
-frontend/
-  src/
-    App.jsx
-    api.js
-    components/
-
-desktop/
-  main.cjs
-  preload.cjs
-  Icono/
-
-scripts/
-  build_backend.ps1
+release/win-unpacked/Mini Editor Subtitulos.exe
+release/Mini Editor Subtitulos Setup 0.1.0.exe
 ```
 
-## Backend
+Puedes usar:
 
-Stack:
+- `Mini Editor Subtitulos.exe`: version portable para probar la app sin instalar.
+- `Mini Editor Subtitulos Setup 0.1.0.exe`: instalador para Windows.
+
+## Flujo automatico
+
+1. Abre la app.
+2. Sube un video.
+3. Presiona `Generar espanol`.
+4. La app transcribe el audio y crea bloques en espanol.
+5. Revisa o corrige el espanol si hace falta.
+6. Presiona `Generar ingles`.
+7. La app genera el ingles desde los bloques actuales en espanol.
+8. Ajusta posicion, tamano o texto de cualquier bloque.
+9. Elige una carpeta de exportacion.
+10. Exporta el video final.
+
+## Flujo manual por parrafos
+
+Tambien puedes trabajar pegando el guion completo.
+
+Ejemplo:
+
+```text
+Parrafo 1 en espanol
+
+Parrafo 2 en espanol
+
+Parrafo 3 en espanol
+```
+
+y su version en ingles:
+
+```text
+Paragraph 1 in English
+
+Paragraph 2 in English
+
+Paragraph 3 in English
+```
+
+La app separa ambos textos por parrafos. Luego compara:
+
+```text
+parrafo 1 espanol -> parrafo 1 ingles
+parrafo 2 espanol -> parrafo 2 ingles
+parrafo 3 espanol -> parrafo 3 ingles
+```
+
+Con esa relacion, distribuye los subtitulos sobre los tiempos detectados de voz para que cada bloque en espanol y su bloque en ingles terminen aproximadamente al mismo tiempo.
+
+Este modo es util cuando ya tienes el texto correcto y solo quieres que la app lo sincronice con el video.
+
+## Edicion visual
+
+La interfaz se organiza como un editor simple:
+
+```text
+Panel izquierdo   Preview central   Panel derecho
+Barra inferior de acciones
+```
+
+Panel izquierdo:
+
+- Historial de proyectos.
+- Lista de bloques.
+- Indicador del bloque activo.
+- Boton para agregar un bloque vacio si necesitas corregir una parte.
+
+Preview central:
+
+- Video vertical 9:16.
+- Subtitulo ingles arriba.
+- Subtitulo espanol abajo.
+- Karaoke en el espanol.
+- Actualizacion en tiempo real.
+
+Panel derecho:
+
+- Edicion de texto espanol.
+- Edicion de texto ingles.
+- Controles de tamano.
+- Controles de posicion vertical.
+- Guardado de cambios.
+
+## Exportacion
+
+Antes de exportar debes elegir una carpeta de destino. La app crea una carpeta con el nombre del video y guarda ahi los archivos generados.
+
+Ejemplo:
+
+```text
+Carpeta elegida/
+  silver chariot/
+    silver chariot.mp4
+    silver chariot_portada.jpg
+    silver chariot.mp3
+```
+
+El MP4 final se exporta con subtitulos quemados usando FFmpeg local.
+
+## Tecnologias
+
+Frontend:
+
+- React
+- Vite
+- CSS
+- HTML5 video
+
+Backend:
 
 - Python
 - FastAPI
 - faster-whisper
 - Argos Translate / fallback local
 - imageio-ffmpeg
-- SQLite para historial
+- SQLite
 
-Endpoints principales:
+Escritorio:
 
-- `POST /api/upload`
-- `GET /api/project/{project_id}`
-- `PUT /api/project/{project_id}/blocks`
-- `POST /api/transcribe/{project_id}`
-- `POST /api/translate/{project_id}`
-- `POST /api/manual-subtitles/{project_id}`
-- `POST /api/export/{project_id}`
-- `GET /api/download/{project_id}`
-- `GET /api/download/{project_id}/mp3`
+- Electron
+- PyInstaller
+- electron-builder
 
-## Frontend
+## Ejecutar en desarrollo
 
-Stack:
-
-- React
-- Vite
-- CSS simple
-- HTML5 video
-- Overlay HTML absoluto para subtitulos
-
-La interfaz tiene:
-
-- Panel izquierdo con historial y bloques.
-- Preview central 9:16.
-- Panel derecho de edicion.
-- Barra inferior de acciones.
-
-## Requisitos para desarrollo
-
-Instala:
+Requisitos:
 
 - Python 3.11 o superior
 - Node.js 20 o superior
 - Git
 
-FFmpeg no necesita estar instalado en el PATH si usas `imageio-ffmpeg`, porque el backend lo resuelve localmente.
-
-## Instalar dependencias
-
-Desde la raiz del proyecto:
+Instalar dependencias:
 
 ```powershell
 python -m pip install -r backend\requirements.txt
@@ -125,45 +173,34 @@ npm install
 npm run frontend:install
 ```
 
-## Ejecutar en modo desarrollo
-
-Terminal 1, backend:
+Levantar backend:
 
 ```powershell
-cd C:\ruta\al\proyecto
 python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Terminal 2, frontend:
+Levantar frontend:
 
 ```powershell
-cd C:\ruta\al\proyecto\frontend
+cd frontend
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Abre:
+Abrir:
 
 ```text
 http://127.0.0.1:5173
 ```
 
-## Ejecutar como app de escritorio en desarrollo
+## Ejecutar como escritorio en desarrollo
 
-Primero levanta Vite:
-
-```powershell
-cd C:\ruta\al\proyecto\frontend
-npm run dev
-```
-
-Luego:
+Con Vite abierto en el puerto `5173`, ejecuta desde la raiz:
 
 ```powershell
-cd C:\ruta\al\proyecto
 npm run desktop:dev
 ```
 
-## Crear app Windows
+## Crear instalador de Windows
 
 Construir frontend:
 
@@ -177,7 +214,7 @@ Empaquetar backend Python:
 npm run backend:build
 ```
 
-Crear app portable:
+Crear version portable:
 
 ```powershell
 npm run pack:win:ready
@@ -189,82 +226,18 @@ Crear instalador:
 npm run dist:win:ready
 ```
 
-Salidas:
+Los archivos quedan en:
 
 ```text
-release\win-unpacked\Mini Editor Subtitulos.exe
-release\Mini Editor Subtitulos Setup 0.1.0.exe
+release/
 ```
 
-## Datos locales
+## Datos de la app
 
-La app empaquetada guarda proyectos, videos subidos, historial y outputs internos en:
+La version instalada guarda sus datos locales en:
 
 ```text
 %APPDATA%\Mini Editor Subtitulos\data
 ```
 
-Los videos finales se guardan en la carpeta que el usuario elige antes de exportar.
-
-## Traduccion
-
-El flujo recomendado es:
-
-1. Generar o corregir primero el espanol.
-2. Luego generar ingles desde esos bloques espanoles.
-
-La traduccion automatica trabaja sobre:
-
-```text
-project.blocks[i].text_es
-```
-
-y guarda en:
-
-```text
-project.blocks[i].text_en
-```
-
-No vuelve a transcribir, no cambia tiempos, no modifica posiciones y no borra los bloques.
-
-Si el traductor local falla en un bloque, el sistema intenta un fallback local y marca `translation_warning`.
-
-## Exportacion
-
-El backend genera un archivo `.ass` y luego usa FFmpeg para crear el MP4 final:
-
-```text
-video original + subtitles.ass -> output.mp4
-```
-
-La exportacion respeta:
-
-- `text_es`
-- `text_en`
-- `font_size_es`
-- `font_size_en`
-- `y_es`
-- `y_en`
-- `x`
-- karaoke en espanol
-
-## Importante para GitHub
-
-No se deben subir:
-
-- `node_modules/`
-- `frontend/dist/`
-- `build/`
-- `dist/`
-- `dist-backend/`
-- `release/`
-- videos subidos
-- videos exportados
-- base de datos local del historial
-- modelos locales de Argos/Whisper
-
-Eso ya esta cubierto en `.gitignore`.
-
-## Estado del proyecto
-
-Proyecto local funcional en Windows. El codigo base puede adaptarse a macOS/Linux, pero el instalador actual se genera para Windows con Electron Builder.
+Los videos finales se guardan en la carpeta que el usuario elige al exportar.
