@@ -4,21 +4,28 @@ Aplicacion de escritorio para crear videos verticales 9:16 con subtitulos en esp
 
 Funciona localmente en Windows y no agrega marca de agua.
 
-## Descargar e instalar
+## Crear e instalar el paquete de Windows
 
-La forma recomendada de usar la app es instalarla desde la version de escritorio.
+El repositorio todavía no publica instaladores en **Releases**. Puedes generarlos localmente desde el código fuente:
 
-1. Ve a la seccion **Releases** del repositorio.
-2. Descarga el instalador:
+1. Instala Node.js y Python para Windows.
+2. Crea y activa un entorno Python; después instala las dependencias:
 
-```text
-Mini Editor Subtitulos Setup 0.1.0.exe
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r backend\requirements.txt
 ```
 
-3. Ejecuta el instalador.
-4. Abre la app desde el acceso directo creado en Windows.
+3. Instala las dependencias de Electron y del frontend, y compila:
 
-No necesitas abrir servidores manualmente, ejecutar comandos, instalar FFmpeg por separado ni configurar Python para usar la app instalada.
+```powershell
+npm install
+npm run frontend:install
+npm run dist:win
+```
+
+El instalador NSIS y la versión portable se generan en `release/`. El paquete incluye el backend y sus dependencias; no requiere instalar FFmpeg por separado. La transcripción automática puede descargar el modelo de voz la primera vez que se usa.
 
 ## Uso rapido
 
