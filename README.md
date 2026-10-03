@@ -215,6 +215,17 @@ Ejecutar Electron en desarrollo:
 npm run desktop:dev
 ```
 
+Verificar el codigo antes de publicar cambios:
+
+```powershell
+python -m unittest discover -s tests -v
+npm ci --prefix frontend
+npm audit --prefix frontend --audit-level=high
+npm run frontend:build
+```
+
+GitHub Actions ejecuta estas pruebas, la auditoria de dependencias y el build del frontend en cada pull request.
+
 Compilar instalador de Windows:
 
 ```powershell

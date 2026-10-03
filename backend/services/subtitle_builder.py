@@ -369,8 +369,6 @@ def align_paragraphs_to_count(paragraphs: list[str], count: int) -> list[str]:
     for index in range(count):
         start = round(index * total / count)
         end = round((index + 1) * total / count)
-        if end <= start:
-            end = min(start + 1, total)
         aligned.append(" ".join(paragraphs[start:end]).strip())
 
     return aligned
