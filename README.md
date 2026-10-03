@@ -239,3 +239,7 @@ Los archivos generados quedan en:
 ```text
 release/
 ```
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta [LICENSE](LICENSE).
